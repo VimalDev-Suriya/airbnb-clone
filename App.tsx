@@ -13,7 +13,7 @@ import {colors, fonts} from './src/constants';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-// * Implementing the stack screen within the TAB screen
+// * Implementing the stack screen within the TAB screen (Nested)
 const Tab = createBottomTabNavigator();
 
 const App = () => {
@@ -23,12 +23,13 @@ const App = () => {
         <Tab.Navigator
           screenOptions={{
             tabBarActiveTintColor: colors.primary,
+            headerTitleAlign: 'center',
             tabBarLabelStyle: {
               fontFamily: fonts.Bold,
             },
           }}>
           <Tab.Screen
-            name="Explore"
+            name="ExploreStack"
             component={ExploreStackScreen}
             options={{
               tabBarLabel: 'Explore',
