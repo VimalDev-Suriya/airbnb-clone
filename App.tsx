@@ -1,118 +1,87 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import ExploreStackScreen from './src/screens/ExploreStackScreen';
+import WishlistScreen from './src/screens/WishlistScreen';
+import TripsScreen from './src/screens/TripsScreen';
+import InboxScreen from './src/screens/InboxScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import {colors, fonts} from './src/constants';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+// * Implementing the stack screen within the TAB screen
+const Tab = createBottomTabNavigator();
+
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarActiveTintColor: colors.primary,
+            tabBarLabelStyle: {
+              fontFamily: fonts.Bold,
+            },
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          <Tab.Screen
+            name="Explore"
+            component={ExploreStackScreen}
+            options={{
+              tabBarLabel: 'Explore',
+              headerShown: false,
+              tabBarIcon: ({color, size}) => (
+                <SimpleLineIcons name="magnifier" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Wishlist"
+            component={WishlistScreen}
+            options={{
+              tabBarLabel: 'Wishlist',
+              tabBarIcon: ({color, size}) => (
+                <SimpleLineIcons name="heart" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Trips"
+            component={TripsScreen}
+            options={{
+              tabBarLabel: 'Trips',
+              tabBarIcon: ({color, size}) => (
+                <SimpleLineIcons name="globe" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Inbox"
+            component={InboxScreen}
+            options={{
+              tabBarLabel: 'Inbox',
+              tabBarIcon: ({color, size}) => (
+                <SimpleLineIcons name="envelope" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              tabBarLabel: 'Profile',
+              tabBarIcon: ({color, size}) => (
+                <SimpleLineIcons name="user" size={size} color={color} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
